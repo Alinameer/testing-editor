@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Editor X</title>
+    <link
+    href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+    rel="stylesheet"
+  />
+  <link
+  rel="stylesheet"
+  href="https://cdn.statically.io/gh/TORCH-Corp/SF-PRO-FONT/main/font/fonts.css"
+  />
+
+  <link
+  rel="preload"
+  href="https://cdn.statically.io/gh/TORCH-Corp/SF-PRO-FONT/main/font/SF-Pro.woff2"
+  as="font"
+  type="font/woff2"
+  crossorigin
+ />
+  <link rel="stylesheet" href="/node_modules/docs_editor_test/dist/index.css" />
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+    }
+    .editor-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      height: calc(100vh - 40px);
+    }
+    .editor-section, .preview-container {
+      height: 94.5%;
+      overflow-y: auto;
+    }
+    .preview-container {
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background: white;
+    }
+    .preview-content {
+      max-width: none;
+      font-family: 'SF Pro', sans-serif;
+    }
+    react-editor {
+      height: 100%;
+      display: block;
+    }
+  </style>
+  </head>
+  <body>
+    <div class="editor-container">
+      <div class="editor-section">
+        <react-editor 
+          id="editor"
+          editorSerializedState=""
+        ></react-editor>
+      </div>
+      
+      <div class="preview-container">
+        <h2>Preview</h2>
+        <div id="preview" class="preview-content"></div>
+      </div>
+    </div>
+    
+    <script type="module">
+      import '/node_modules/docs_editor_test/dist/index.js';
+      
+      function handleEditorChange(state) {
+        console.log('Editor state changed:', state);
+      }
+      
+      function handleSerializedChange(state) {
+        console.log('Serialized state changed:', state);
+      }
+      
+      function handleHtmlChange(html) {
+        console.log('HTML changed:', html);
+        const previewElement = document.getElementById('preview');
+        previewElement.innerHTML = html;
+      }
+      
+      window.addEventListener('DOMContentLoaded', () => {
+        const editor = document.querySelector('#editor');
+        editor.onChange = handleEditorChange;
+        editor.onSerializedChange = handleSerializedChange;
+        editor.onHtmlChange = handleHtmlChange;
+      });
+    </script>
+  </body>
+</html>
